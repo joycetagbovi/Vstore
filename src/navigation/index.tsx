@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet, Image, TouchableOpacity } from 'react-native'
+import {  Image, } from 'react-native'
 import React, { Component } from 'react'
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -8,11 +8,14 @@ import HomeScreen from '../Screens/HomeScreen';
 import DetailScreen from '../Screens/DetailScreen';
 import FavouriteScreen from '../Screens/FavouriteScreen';
 import BuyScreen from '../Screens/BuyScreen';
-import { BackdropFilter } from '@shopify/react-native-skia';
+import OnboardingScreen from '../Screens/OnboardingScreen';
 
 
 
 export default class Navigation extends Component {
+  static navigate(arg0: string): any {
+      throw new Error('Method not implemented.');
+  }
   render() {
     return (
         <NavigationContainer>
@@ -30,6 +33,7 @@ function RootNavigator() {
         headerShown: false,    
       }}
       >
+      {/* <Stack.Screen name="onboard" component={OnboardingScreen} /> */}
       <Stack.Screen
         name="root"
         component={BottomTabNavigator}
@@ -50,14 +54,15 @@ export function BottomTabNavigator () {
           tabBarShowLabel: false,
           headerShown: false,   
           tabBarStyle:{
-            backgroundColor: 'rgba(37, 40, 48, 0.8);',
+            backgroundColor: '#201F20',
             position: 'absolute',
             elevation: 0,
-            bottom: 0,
-            height: 100,
-            borderTopLeftRadius: 52,
-            borderTopRightRadius: 52,
-            paddingVertical: 16,  
+            bottom: 20,
+            left: 16,
+            height: 75,
+            width: 343,
+            borderRadius: 20,
+            paddingVertical: 30,  
             }
          }}  >
             <Tab.Screen 

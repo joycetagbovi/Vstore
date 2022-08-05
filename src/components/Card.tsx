@@ -1,26 +1,16 @@
 import { View, Text, StyleSheet, Image,TouchableOpacity } from 'react-native'
 import React from 'react'
 import { FoodProps } from '../types/data';
-import { Box,Flex, ListItem } from "@react-native-material/core";
+import { Flex } from "@react-native-material/core";
 import { FontAwesome } from '@expo/vector-icons'
 
 
 
-const Card: React.FC<FoodProps> = ({title,image,price})  => {
-  
-
+const Card: React.FC<FoodProps> = ({title,image,price, id})  => {
   return (
-  
-       <Flex
-       w={163}
-       h={220} 
-       m={5}
-      
-       style=
-       {{ 
-        backgroundColor: "#A9C7C91F", 
-        borderRadius: 26,
-        }} > 
+      <TouchableOpacity>
+       <View style={styles.card}> 
+          {id}
             <Flex mb={5}>
             <Image
             source={{uri: image}}
@@ -40,14 +30,8 @@ const Card: React.FC<FoodProps> = ({title,image,price})  => {
               <Text style={styles.text}>{title.substring(0, 9)}</Text>
               <Text style={styles.text}>{price}</Text>
          </View>
-         <Flex direction='row' p={10}>
-           <FontAwesome name="star" size={10} color="#Fff" />
-           <FontAwesome name="star" size={10} color="#Fff" />
-           <FontAwesome name="star" size={10} color="#Fff" />
-           <FontAwesome name="star" size={10} color="#Fff" />
-           <FontAwesome name="star" size={10} color="#898B8B" />
-         </Flex>
-        </Flex>
+        </View>
+        </TouchableOpacity>
        
     
   )
@@ -57,8 +41,24 @@ export default Card
 
 const styles = StyleSheet.create({
 
+  card: {
+    width: 163,
+    height: 220,
+    backgroundColor: "#fff",
+    borderRadius: 14,
+    margin: 5,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  
   text :{
-    color: '#FFFFFF',
+    color: '#1B153D',
     fontSize: 16,
     fontFamily: 'Raleway_500Medium',
    

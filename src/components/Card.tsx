@@ -1,14 +1,14 @@
 import { View, Text, StyleSheet, Image,TouchableOpacity } from 'react-native'
-import React from 'react'
 import { FoodProps } from '../types/data';
 import { Flex } from "@react-native-material/core";
-import { FontAwesome } from '@expo/vector-icons'
+import { useNavigation } from '@react-navigation/native';
 
 
+const Card: React.FC<FoodProps> = ({title,image,price, id, description })  => { 
 
-const Card: React.FC<FoodProps> = ({title,image,price, id})  => {
+  const navigation = useNavigation(); 
   return (
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => (navigation.navigate('product',{ title, image, price, id,description}))}>
        <View style={styles.card}> 
           {id}
             <Flex mb={5}>
@@ -27,7 +27,7 @@ const Card: React.FC<FoodProps> = ({title,image,price, id})  => {
               marginTop: 10,
               padding: 10,
             }}>
-              <Text style={styles.text}>{title.substring(0, 9)}</Text>
+              <Text style={styles.text}>{title.toString()}</Text>
               <Text style={styles.text}>{price}</Text>
          </View>
         </View>

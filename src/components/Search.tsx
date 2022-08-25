@@ -1,38 +1,30 @@
 import { View, StyleSheet, TextInput, Image ,Text} from 'react-native'
-import React, {useState} from 'react'
-import {  Flex } from "@react-native-material/core";
+import  {useContext,useState} from 'react'
+import { Ionicons } from '@expo/vector-icons';
+import { Props } from '../types/data';
+import { Store } from '../hooks/Store';
 
-const Search = () => {
 
-    const [search, setSearch] = useState('');
-    const [searchResults, setSearchResults] = useState([]);
+const Search: React.FC<Props> = ({term,onhandleChange}:Props) => {
 
-    const searchHandler = (text: any) => {
-        setSearch(text);
-        console.log(text);
-    }
+  const {state,dispatch  } = useContext(Store);
+  
+
 
   return (
-    <View>
-      <Flex m={10} direction='row' center justify='center'>
+    <View style={{flexDirection:'row', justifyContent:'space-between', alignItems:'center', }}>
+        <View style={{position: 'absolute', left:30 }}>
+       <Ionicons name="ios-search" size={24} color="#1B153D" />
+        </View>
       <TextInput 
         style={styles.input}
-         onChangeText={searchHandler}
-         value={search}
-         placeholder="Find your dishes"
+         onChangeText={(text:any) => onhandleChange(text)}
+         value={term}
+         placeholder="Search Products"
          placeholderTextColor="#686F82"
+        
      />
-      <Image source={require('../../assets/Filter.png')} 
-        resizeMode="stretch"
-        style={{position: 'absolute', 
-        right: 30,
-        top: 30,
-        width: 15.9,
-        height: 15.9,}} 
-       />
-        <Text>{Search}</Text>
-        </Flex>
-       
+     
     </View>
   )
 }
@@ -41,12 +33,15 @@ export default Search
 
 const styles = StyleSheet.create({
     input: {
-      height: 52,
+      height: 59,
       backgroundColor: '#A9C7C91F',
       borderRadius: 19,
       margin: 12,
       padding: 20,
-      width: 330,
+      width: 340,
+      textAlign: 'center',
+      fontSize: 16,
+      fontFamily: 'Raleway_500Medium',
     
     },
   });

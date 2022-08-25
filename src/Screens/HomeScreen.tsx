@@ -1,47 +1,79 @@
-import { View, Text, StyleSheet, SafeAreaView,  FlatList, ScrollView} from 'react-native'
-import React, {useState, useEffect} from 'react'
-import {  Flex  } from "@react-native-material/core";
-import { FoodProps } from '../types/data';
-
+import { View, Text, StyleSheet, SafeAreaView,  FlatList, ScrollView,TouchableOpacity, TextInput} from 'react-native'
+import React, {  useContext, useState, useEffect} from 'react'
+import {  Flex } from "@react-native-material/core";
+import { Store } from '../hooks/Store';
 import CategoryList from '../components/CategoryList';
 import Card from '../components/Card'
 import Search from '../components/Search';
 import Header from '../components/Header';
+import axios from 'axios';
+import { useNavigation } from '@react-navigation/native';
+
 
 const HomeScreen = () => {
- 
-  const [posts, setPosts] = useState([]);
+  const navigation = useNavigation();
+  const {state, dispatch } = useContext(Store);
+
   useEffect(() => {
-    fetch('https://fakestoreapi.com/products')
-    .then(res => res.json())
-    .then(json => setPosts(json))
-  }, [])
+    const fetchData = async () => {
+        try {
+     const response = await axios.get('https://fakestoreapi.com/products');
+        dispatch({ type: 'FETCH_SUCCESS', payload: response.data });
+        } catch (error) {
+        dispatch({ type: 'FETCH_FAILURE', payload: (error as Error).message });
+        }
+    }  
+    fetchData();   
+} , []);
+
+
+
+
+const [term, setTerm] = useState('');
+
+ const onhandleChange = (name: any) => {
+    
+    const newData = state.posts.filter((item: any) => {
+        const itemData = `${item.title.toUpperCase()}`;
+        const textData = name.toUpperCase();
+        return itemData.indexOf(textData) > -1;
+      }
+      );
+      setTerm(name);
+      
+      dispatch({type: 'FETCH-SUCCESS', payload: newData});
+      console.log(newData)
+      console.log(dispatch({type: 'SEARCH-SUCCESS', payload: newData}))
+  }
+
 
   
+
   return (
     <SafeAreaView style={styles.container}>
       <Header />
       <Flex m={10}>
       <Text style={styles.text}>Find your suitable product now. </Text>
       </Flex>
-      <Search />
-      <CategoryList />
-      <Flex m={10}  >
+      <Search  
+         terms={term}
+         onhandleChange={(text: any) => onhandleChange(text)}
+      />
+       <CategoryList />
+      <Flex m={10}  >    
        <FlatList 
        numColumns={2}
        showsVerticalScrollIndicator={false}
-       data={posts as FoodProps[]}
+       data={state.posts}  
        renderItem={({item}) => {
           return (
-          <Card title={item.title} image={item.image} price={item.price}  />
+          <Card title={item.title} image={item.image} price={item.price} key={item.id} category={item.category} description={item.description}/>
           )
        }
       }
-        keyExtractor={item => item.id.toString()}
+        keyExtractor={item => item.id}
        />
-    
       </Flex>
-     
     </SafeAreaView>
   )
 }
@@ -62,5 +94,11 @@ const styles = StyleSheet.create({
     width: 300,
     textAlign: 'left',
   },
- 
+  text2: {
+    color: '#686F82',
+        fontSize: 16,
+        margin: 8,
+        textTransform: 'capitalize',
+        fontFamily: 'Raleway_500Medium',
+    },
 })

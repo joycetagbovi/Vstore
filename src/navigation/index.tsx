@@ -8,7 +8,8 @@ import HomeScreen from '../Screens/HomeScreen';
 import DetailScreen from '../Screens/DetailScreen';
 import FavouriteScreen from '../Screens/FavouriteScreen';
 import BuyScreen from '../Screens/BuyScreen';
-import OnboardingScreen from '../Screens/OnboardingScreen';
+import ProductDetails from '../Screens/ProductDetails';
+
 
 
 
@@ -33,11 +34,15 @@ function RootNavigator() {
         headerShown: false,    
       }}
       >
-      {/* <Stack.Screen name="onboard" component={OnboardingScreen} /> */}
       <Stack.Screen
         name="root"
         component={BottomTabNavigator}
       />
+        <Stack.Screen 
+          name="product" 
+          component={ProductDetails} 
+           
+          />
     </Stack.Navigator>
   )
 }
@@ -45,9 +50,6 @@ function RootNavigator() {
 const Tab = createBottomTabNavigator();
 
 export function BottomTabNavigator () {
-  
-   
-
     return (
         <Tab.Navigator
          screenOptions={{ 
